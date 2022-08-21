@@ -1,0 +1,19 @@
+---
+version: '3.8'
+
+services:
+  openwrt-build:
+    build: .
+    container_name: openwrt-build
+
+    # Allow attaching to the container.
+    stdin_open: true
+    tty: true
+
+    volumes:
+      - linux:/build
+      # Mount local user's SSH key into container.
+      - ~/.ssh/id_ed25519:/root/.ssh/id_ed25519:ro
+
+volumes:
+  linux:
