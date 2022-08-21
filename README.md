@@ -62,6 +62,16 @@ You will need to flash that image file to the Raspberry Pi to boot OpenWRT.
 
 > There is also a `ext4-sysupgrade` image file; this file can be used to upgrade an already-built OpenWRT system.
 
+First, inside the Docker container, copy the build files out to the shared `images` folder:
+
+```
+cp /build/openwrt/bin/targets/bcm27xx/bcm2711/*.img.gz /images
+```
+
+Then, use [Raspberry Pi Imager](https://www.raspberrypi.com/software/), [Etcher](https://www.balena.io/etcher/), or some other image-writing tool to write the uncompressed `.img` file to a microSD card or the Pi's eMMC directly.
+
+## First Boot
+
 TODO.
 
 ## Author

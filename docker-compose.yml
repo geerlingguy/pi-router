@@ -12,6 +12,7 @@ services:
 
     volumes:
       - linux:/build
+      - ./images:/images
       # Mount local user's SSH key into container.
       - ~/.ssh/id_ed25519:/root/.ssh/id_ed25519:ro
 
