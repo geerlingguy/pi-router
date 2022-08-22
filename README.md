@@ -1,5 +1,7 @@
 # Pi Router
 
+[![Build](https://github.com/geerlingguy/pi-router/actions/workflows/ci.yml/badge.svg)](https://github.com/geerlingguy/pi-router/actions/workflows/ci.yml)
+
 A Raspberry Pi router build for the [Waveshare CM4-DUAL-ETH-4G/5G-BOX](https://pipci.jeffgeerling.com/boards_cm/waveshare-dual-gb-ethernet-5g-4g-base-board.html), using the [Sierra Wireless EM7565 4G LTE modem](https://pipci.jeffgeerling.com/cards_network/sierra-wireless-em7565.html).
 
 After borrowing my Dad's [Cradlepoint IBR900](https://cradlepoint.com/products/endpoints/#filter=.use_case_router_firewalls), I decided I wanted to build a similar style portable 4G access point/router/firewall.
