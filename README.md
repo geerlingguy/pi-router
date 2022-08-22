@@ -37,20 +37,31 @@ First, run the following command to open `menuconfig` and select options:
 make menuconfig
 ```
 
-For the Waveshare board, I made sure USB Ethernet support was added (`kmod-usb-net` and `kmod-usb-net-lan78xx` were selected by default), and then I also selected the `kmod-usb-net-sierrawireless` option under Kernel modules > USB support.
+Choose the Raspberry Pi BCM 2711 for the CM4 as the target platform:
 
-I also selected `Broadcom BCM27xx` for the Target System, and `BCM 2711 Boards (64 bit)` for the Subtarget.
+  1. Target System: `Broadcom BCM27xx`
+  2. Subtarget: `BCM 2711 Boards (64 bit)`
 
-Then, run the `make` command to compile OpenWRT:
+Then select additional packages and configuration. for the Waveshare board, I added the following options:
+
+  1. USB Ethernet support for RTL8153: Kernel modules > USB Support > `kmod-usb-net-rtl8152`
+  2. 4G LTE support for Sierra Wireless EM7565: Kernel modules > USB Support > `kmod-usb-net-sierrawireless`
+  3. USB 2.0 and 3.0 Support: Kernel modules > USB Support > `kmod-usb2` (and `kmod-usb3`)
+  4. Enable the LuCI Web UI with https: LuCI > 1. Collections > `luci-ssl`
+
+(Make sure to choose the `[*] built-in` option, not `[M] module` option for each of the above selections.)
+
+> TODO: I currently don't have all the /etc/config/network, /etc/config/dhcp, and /etc/config/wireless files set up in this repo—I should do that so I don't have to sit there configuring the router on first boot.
+
+Then, if you would like to customize Linux kernel options, run the following command (this is often not necessary):
 
 ```
 make -j $(nproc) kernel_menuconfig
 ```
 
-And finally, build the image:
+And finally, compile OpenWRT and build the image:
 
 ```
-make -j $(nproc) download world
 make -j $(nproc)
 ```
 
@@ -71,6 +82,12 @@ cp /build/openwrt/bin/targets/bcm27xx/bcm2711/*.img.gz /images
 Then, use [Raspberry Pi Imager](https://www.raspberrypi.com/software/), [Etcher](https://www.balena.io/etcher/), or some other image-writing tool to write the uncompressed `.img` file to a microSD card or the Pi's eMMC directly.
 
 ## First Boot
+
+Plug in a USB-C power supply, and plug the ETH0 port into your computer (preferred) or network (this can cause issues). The default OpenWRT configuration sets up the router at 192.168.1.1, so visit that URL in the browser: https://192.168.1.1
+
+On the first visit, you'll get an HTTPS certificate warning, which you can ignore. On the login page, use `root` for the username and leave the password field blank.
+
+> You should set a strong password for the root account immediately, to keep your router secure!
 
 TODO.
 
