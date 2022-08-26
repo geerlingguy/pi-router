@@ -46,10 +46,26 @@ Choose the Raspberry Pi BCM 2711 for the CM4 as the target platform:
 
 Then select additional packages and configuration. for the Waveshare board, I added the following options:
 
+> TODO: This section currently installs practically all the different potential points of entry for QMI, MBIM, etc. modes. For final production use, I probably only need to install a small subset of the packages for the wireless 4G modem, depending on how I want to use it.
+
   1. USB Ethernet support for RTL8153: Kernel modules > USB Support > `kmod-usb-net-rtl8152`
-  2. 4G LTE support for Sierra Wireless EM7565: Kernel modules > USB Support > `kmod-usb-net-sierrawireless`
-  3. USB 2.0 and 3.0 Support: Kernel modules > USB Support > `kmod-usb2` (and `kmod-usb3`)
-  4. Enable the LuCI Web UI with https: LuCI > 1. Collections > `luci-ssl`
+  2. USB 2.0 and 3.0 Support: Kernel modules > USB Support > `kmod-usb2` (and `kmod-usb3`)
+  3. Enable the LuCI Web UI with https: LuCI > 1. Collections > `luci-ssl`
+  4. 4G LTE support for Sierra Wireless EM7565: Kernel modules > USB Support > `kmod-usb-net-sierrawireless`
+    1. QMI support:
+      - Utilities > `usb-modeswitch`
+      - Kernel modules > USB Support > `kmod-usb-wdm`
+      - Kernel modules > USB Support > `kmod-usb-net-qmi-wwan`
+      - Network > WWAN > `uqmi`
+      - LuCI > 5. Protocols > `luci-proto-qmi` (for UI control of the modem)
+      - Kernel modules > USB Support > `kmod-usb-serial-option` (optional - for AT commands)
+      - Kernel modules > USB Support > `kmod-usb-serial-qualcomm`
+      - Kernel modules > USB Support > `kmod-usb-serial-sierrawireless`
+    1. MBIM support:
+      - Kernel modules > USB Support > `kmod-usb-net-cdc-mbim`
+    1. ModemManager setup:
+      - Network > `modemmanager`
+      - LuCI > 5. Protocols > `luci-proto-modemmanager`
 
 (Make sure to choose the `[*] built-in` option, not `[M] module` option for each of the above selections.)
 
