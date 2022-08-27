@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean && apt-get update && \
     apt-get install -y \
     build-essential gawk luajit flex git gettext \
-    python3-distutils rsync unzip wget file \
+    python3-distutils rsync unzip wget nano file \
     libncurses5-dev libssl-dev zlib1g-dev
 
 RUN mkdir -p /root/.ssh

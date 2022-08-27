@@ -10,7 +10,7 @@ I bought a [SixFab SIM](https://sixfab.com/sim/) and built a fast 4G router usin
 
 The build runs OpenWRT, but since it is a custom configuration, you have to manually compile an OpenWRT image to flash to the Pi's microSD card or eMMC storage.
 
-## Bringing up the build environment
+## Bring up the build environment
 
   1. Install Docker (and Docker Compose if not using Docker Desktop).
   1. Bring up the cross-compile environment:
@@ -29,7 +29,7 @@ You will be dropped into a shell inside the container's `/build/openwrt` directo
 
 > After you `exit` out of that shell, the Docker container will stop, but will not be removed. If you want to jump back into it, you can run `docker start openwrt-build` and `docker attach openwrt-build`.
 
-## Compiling OpenWRT
+## Configure a custom OpenWRT build
 
 The container should have OpenWRT's source code checked out inside he `/build/openwrt` directory. If you would like, run `git pull` inside the directory to make sure the latest OpenWRT changes are present.
 
@@ -49,20 +49,19 @@ Then select additional packages and configuration. for the Waveshare board, I ad
 > TODO: This section currently installs practically all the different potential points of entry for QMI, MBIM, etc. modes. For final production use, I probably only need to install a small subset of the packages for the wireless 4G modem, depending on how I want to use it.
 
   1. USB Ethernet support for RTL8153: Kernel modules > USB Support > `kmod-usb-net-rtl8152`
-  2. USB 2.0 and 3.0 Support: Kernel modules > USB Support > `kmod-usb2` (and `kmod-usb3`)
-  3. Enable the LuCI Web UI with https: LuCI > 1. Collections > `luci-ssl`
-  4. 4G LTE support for Sierra Wireless EM7565: Kernel modules > USB Support > `kmod-usb-net-sierrawireless`
-    1. QMI support:
+  1. USB 2.0 and 3.0 Support: Kernel modules > USB Support > `kmod-usb2` (and `kmod-usb3`)
+  1. Enable the LuCI Web UI with https: LuCI > 1. Collections > `luci-ssl`
+  1. 4G LTE support for Sierra Wireless EM7565: Kernel modules > USB Support > `kmod-usb-net-sierrawireless`
+    1. MBIM/QMI support:
       - Utilities > `usb-modeswitch`
-      - Kernel modules > USB Support > `kmod-usb-wdm`
-      - Kernel modules > USB Support > `kmod-usb-net-qmi-wwan`
+      - Utilities > Terminal > `minicom`
       - Network > WWAN > `uqmi`
-      - LuCI > 5. Protocols > `luci-proto-qmi` (for UI control of the modem)
+      - Kernel modules > USB Support > `kmod-usb-net-cdc-mbim`
+      - Kernel modules > USB Support > `kmod-usb-net-qmi-wwan`
       - Kernel modules > USB Support > `kmod-usb-serial-option` (optional - for AT commands)
       - Kernel modules > USB Support > `kmod-usb-serial-qualcomm`
       - Kernel modules > USB Support > `kmod-usb-serial-sierrawireless`
-    1. MBIM support:
-      - Kernel modules > USB Support > `kmod-usb-net-cdc-mbim`
+      - Kernel modules > USB Support > `kmod-usb-wdm`
     1. ModemManager setup:
       - Network > `modemmanager`
       - LuCI > 5. Protocols > `luci-proto-modemmanager`
@@ -77,13 +76,19 @@ Then, if you would like to customize Linux kernel options, run the following com
 make -j $(nproc) kernel_menuconfig
 ```
 
+### Add WiFi Support (for some CM4 modules)
+
+TODO: See [Get onboard Raspberry Pi CM4 WiFi module working](https://github.com/geerlingguy/pi-router/issues/4). Some CM4 modules have a different wireless chipset that requires copying three firmware files over from Raspberry Pi OS to the custom buildroot files directory...
+
+### Compile OpenWRT
+
 And finally, compile OpenWRT and build the image:
 
 ```
 make -j $(nproc)
 ```
 
-## Flashing the OpenWRT Image
+## Flash the OpenWRT Image
 
 After `make` is finished, you should have a file named `openwrt-bcm27xx-bcm2711-rpi-4-ext4-factory.img.gz` inside `/build/openwrt/bin`.
 
