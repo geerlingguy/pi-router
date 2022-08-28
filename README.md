@@ -78,7 +78,9 @@ make -j $(nproc) kernel_menuconfig
 
 ### Add WiFi Support (for some CM4 modules)
 
-TODO: See [Get onboard Raspberry Pi CM4 WiFi module working](https://github.com/geerlingguy/pi-router/issues/4). Some CM4 modules have a different wireless chipset that requires copying three firmware files over from Raspberry Pi OS to the custom buildroot files directory...
+TODO: See [Get onboard Raspberry Pi CM4 WiFi module working](https://github.com/geerlingguy/pi-router/issues/4). Some alpha CM4 modules have a different wireless chipset that requires copying three firmware files over from Raspberry Pi OS to the custom buildroot files directory.
+
+TODO: Also need to make sure the config.txt change is made to use the external antenna (otherwise internal antenna gets zero signal).
 
 ### Compile OpenWRT
 
