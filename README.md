@@ -2,13 +2,19 @@
 
 [![Build](https://github.com/geerlingguy/pi-router/actions/workflows/ci.yml/badge.svg)](https://github.com/geerlingguy/pi-router/actions/workflows/ci.yml)
 
-A Raspberry Pi router build for the [Waveshare CM4-DUAL-ETH-4G/5G-BOX](https://pipci.jeffgeerling.com/boards_cm/waveshare-dual-gb-ethernet-5g-4g-base-board.html), using the [Sierra Wireless EM7565 4G LTE modem](https://pipci.jeffgeerling.com/cards_network/sierra-wireless-em7565.html).
+Raspberry Pi router builds for various custom router configurations.
 
-After borrowing my Dad's [Cradlepoint IBR900](https://cradlepoint.com/products/endpoints/#filter=.use_case_router_firewalls), I decided I wanted to build a similar style portable 4G access point/router/firewall.
+Some of the targets include:
 
-I bought a [SixFab SIM](https://sixfab.com/sim/) and built a fast 4G router using Waveshare's dual Ethernet 4G/5G kit along with a Raspberry Pi Compute Module 4.
+  - [Waveshare CM4-DUAL-ETH-4G/5G-BOX](https://pipci.jeffgeerling.com/boards_cm/waveshare-dual-gb-ethernet-5g-4g-base-board.html), with a [Sierra Wireless EM7565 4G LTE modem](https://pipci.jeffgeerling.com/cards_network/sierra-wireless-em7565.html).
+  - [Radxa Dual 2.5G Router HAT](https://pipci.jeffgeerling.com/hats/radxa-dual-2.5g-router.html) for Pi 5
+  - [52Pi U2500 Dual M.2 NVME USB3.0 To 2.5g Ethernet HAT](https://pipci.jeffgeerling.com/hats/52pi-nvme-dual-2.5g-eth-hat-u2500-w02.html) for Pi 5
 
-The build runs OpenWRT, but since it is a custom configuration, you have to manually compile an OpenWRT image to flash to the Pi's microSD card or eMMC storage.
+After borrowing my Dad's [Cradlepoint IBR900](https://cradlepoint.com/products/endpoints/#filter=.use_case_router_firewalls), I decided I wanted to build a few routers of my own, based on Raspberry Pis running open source software.
+
+For 4G or 5G access (as a backup to a standard wired ISP connection), I am testing with [SixFab SIM cards](https://sixfab.com/sim/).
+
+I use OpenWRT, but with custom compiled configurations, which you can then flash to a Raspberry Pi's internal storage or a microSD card.
 
 ## Bring up the build environment
 
@@ -30,6 +36,8 @@ You will be dropped into a shell inside the container's `/build/openwrt` directo
 > After you `exit` out of that shell, the Docker container will stop, but will not be removed. If you want to jump back into it, you can run `docker start openwrt-build` and `docker attach openwrt-build`.
 
 ## Configure a custom OpenWRT build
+
+> These instructions currently assume you're using a Raspberry Pi CM4 and targeting the Waveshare CM4-DUAL-ETH-4G/5G-BOX.
 
 The container should have OpenWRT's source code checked out inside he `/build/openwrt` directory. If you would like, run `git pull` inside the directory to make sure the latest OpenWRT changes are present.
 
